@@ -4,17 +4,12 @@
   "private": true,
   "author": "Sasha Zmts",
   "scripts": {
-    "start": "NODE_ENV=production node ./main.js",
-    "dev": "NODE_ENV=development nodemon ./main.js",
+    "start": "set NODE_ENV=production&& node ./main.js",
+    "dev": "set NODE_ENV=development&& nodemon ./main.js",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "test": "echo \">>> Keep in mind: to enshure right test you should set seed data and run server :) <<<\" && mocha test/*.test.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -9,8 +9,8 @@ const asyncConfigs = [
   app,
   knex,
   token,
-  email,
-  s3
+  // email,
+  // s3
 ]
 
 function rootInit () {
@@ -31,7 +31,7 @@ module.exports = {
   knex,
   folders,
   token,
-  email,
-  s3,
+  // email,
+  // s3,
   rootInit
 }

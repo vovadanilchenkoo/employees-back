@@ -12,12 +12,12 @@ class RootProvider {
     //   bucket: config.s3.bucket
     // })
 
-    this.emailClient = new EmailClient({
-      apiKey: config.email.mailgunApiKey,
-      domain: config.email.mailgunDomain,
-      host: config.email.mailgunHost,
-      from: config.email.from
-    })
+    // this.emailClient = new EmailClient({
+    //   apiKey: config.email.mailgunApiKey,
+    //   domain: config.email.mailgunDomain,
+    //   host: config.email.mailgunHost,
+    //   from: config.email.from
+    // })
   }
   async init () {
     logger.debug(`${this.constructor.name} initialized...`)

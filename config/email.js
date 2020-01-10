@@ -15,4 +15,5 @@ class EmailConfig extends BaseConfig {
   }
 }
 
-module.exports = new EmailConfig()
+// module.exports = new EmailConfig()
+module.exports = EmailConfig

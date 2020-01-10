@@ -14,4 +14,5 @@ class S3Config extends BaseConfig {
   }
 }
 
-module.exports = new S3Config()
+// module.exports = new S3Config()
+module.exports = S3Config
