@@ -24,7 +24,7 @@ Supra-api-nodejs its about monolith first approach. But this does not prevent yo
 ### 1. Controller layer
 Each entity have own controller class it slim layer representing resource mapping(routing) 
 ```
-class PostsController extends BaseController {
+class EmployeesController extends BaseController {
   static get router () {
     router.get('/', this.actionRunner(actions.ListAction))
     router.get('/:id', this.actionRunner(actions.GetByIdAction))
@@ -36,7 +36,7 @@ class PostsController extends BaseController {
   }
 }
 ``` 
-For example `PostsController` implement routes of `post` entity. Each route fires own `action`. 
+For example `EmployeesController` implement routes of `post` entity. Each route fires own `action`. 
 
 ### 2. Action layer
 It's a class that encapsulated request validation, permission verification and business logic. One file, one class, one REST operation, one use case.

@@ -1,5 +1,3 @@
-const roles = require('../permissions/roles')
-
 exports.up = knex => {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
@@ -7,7 +5,6 @@ exports.up = knex => {
       table.uuid('id', 36).unsigned().primary().notNull().defaultTo(knex.raw('uuid_generate_v4()'))
       table.string('username', 25).unique().notNull()
       table.string('name', 50)
-      table.string('role').defaultTo(roles.user).notNull()
       table.string('email', 50).unique().notNull()
       table.string('newEmail', 50).unique()
       table.string('location', 300)

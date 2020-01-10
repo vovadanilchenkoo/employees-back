@@ -1,6 +1,6 @@
 const { RequestRule } = require('supra-core')
 const BaseAction = require('../BaseAction')
-const SessionDAO = require('../../dao/SessionDAO')
+// const SessionDAO = require('../../dao/SessionDAO')
 const AuthModel = require('../../models/AuthModel')
 
 /**
@@ -20,7 +20,7 @@ class LogoutAction extends BaseAction {
   }
 
   static async run (ctx) {
-    await SessionDAO.baseRemoveWhere({ refreshToken: ctx.body.refreshToken })
+    // await SessionDAO.baseRemoveWhere({ refreshToken: ctx.body.refreshToken })
 
     return this.result({ message: 'User is logged out from current session.' })
   }

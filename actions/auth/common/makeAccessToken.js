@@ -17,7 +17,6 @@ function makeAccessToken (userEntity) {
     payload: {
       tokenType: type,
       username: userEntity.name,
-      userRole: userEntity.role,
       email: userEntity.email,
       iss
     },

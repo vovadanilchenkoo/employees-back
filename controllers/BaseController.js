@@ -1,4 +1,3 @@
-const { actionTagPolicy } = require('../policy')
 const { errorCodes, AppError, assert, RequestRule } = require('supra-core')
 
 class BaseController {
@@ -9,10 +8,6 @@ class BaseController {
 
   actionRunner (action) {
     assert.func(action, { required: true })
-
-    if (!action.hasOwnProperty('accessTag')) {
-      throw new Error(`'accessTag' getter not declared in invoked '${action.name}' action`)
-    }
 
     if (!action.hasOwnProperty('run')) {
       throw new Error(`'run' method not declared in invoked '${action.name}' action`)
@@ -45,11 +40,6 @@ class BaseController {
         if (ctx.query.schema && ['POST', 'PATCH', 'GET'].includes(ctx.method) && process.env.NODE_ENV === 'development') {
           return res.json(getSchemaDescription(action.validationRules))
         }
-
-        /**
-         * check access to action by access tag
-         */
-        await actionTagPolicy(action.accessTag, ctx.currentUser)
 
         /**
          * verify empty body

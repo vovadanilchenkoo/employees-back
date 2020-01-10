@@ -1,7 +1,7 @@
 const { RequestRule, AppError, errorCodes } = require('supra-core')
 const { addSession } = require('./common/addSession')
 const BaseAction = require('../BaseAction')
-const UserDAO = require('../../dao/UserDAO')
+// const UserDAO = require('../../dao/UserDAO')
 const AuthModel = require('../../models/AuthModel')
 const { SessionEntity } = require('./common/SessionEntity')
 const { makeAccessToken } = require('./common/makeAccessToken')
@@ -26,7 +26,7 @@ class LoginAction extends BaseAction {
     let user = {}
 
     try {
-      user = await UserDAO.getByEmail(ctx.body.email)
+      // user = await UserDAO.getByEmail(ctx.body.email)
       await checkPassword(ctx.body.password, user.passwordHash)
     } catch (e) {
       if ([errorCodes.NOT_FOUND.code, errorCodes.INVALID_PASSWORD.code].includes(e.code)) {

@@ -2,9 +2,9 @@ const { RequestRule } = require('supra-core')
 const { addSession } = require('./common/addSession')
 const { verifySession } = require('./common/verifySession')
 const BaseAction = require('../BaseAction')
-const UserDAO = require('../../dao/UserDAO')
+// const UserDAO = require('../../dao/UserDAO')
 const AuthModel = require('../../models/AuthModel')
-const SessionDAO = require('../../dao/SessionDAO')
+// const SessionDAO = require('../../dao/SessionDAO')
 const { SessionEntity } = require('./common/SessionEntity')
 const { makeAccessToken } = require('./common/makeAccessToken')
 
@@ -26,10 +26,10 @@ class RefreshTokensAction extends BaseAction {
     const reqRefreshToken = ctx.body.refreshToken
     const reqFingerprint = ctx.body.fingerprint
 
-    const oldSession = await SessionDAO.getByRefreshToken(reqRefreshToken)
-    await SessionDAO.baseRemoveWhere({ refreshToken: reqRefreshToken })
+    // const oldSession = await SessionDAO.getByRefreshToken(reqRefreshToken)
+    // await SessionDAO.baseRemoveWhere({ refreshToken: reqRefreshToken })
     await verifySession(new SessionEntity(oldSession), reqFingerprint)
-    const user = await UserDAO.baseGetById(oldSession.userId)
+    // const user = await UserDAO.baseGetById(oldSession.userId)
 
     const newSession = new SessionEntity({
       userId: user.id,

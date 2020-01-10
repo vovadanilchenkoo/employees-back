@@ -1,7 +1,6 @@
 const { errorCodes, BaseMiddleware } = require('supra-core')
 const { jwtVerify } = require('../rootcommmon/jwt')
 const SECRET = require('../config').token.access.secret
-const roles = require('../permissions/roles')
 const logger = require('../logger')
 
 class CheckAccessTokenMiddleware extends BaseMiddleware {
@@ -19,7 +18,6 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
       req.currentUser = Object.freeze({
         id: null,
         name: null,
-        role: roles.anonymous,
         email: null,
         expiresIn: null
       })
@@ -31,7 +29,6 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
             req.currentUser = Object.freeze({
               id: tokenData.sub,
               name: tokenData.username,
-              role: tokenData.userRole,
               email: tokenData.email,
               expiresIn: Number(tokenData.exp)
             })

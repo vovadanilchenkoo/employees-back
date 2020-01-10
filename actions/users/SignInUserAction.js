@@ -4,27 +4,25 @@ const UserModel = require('../../models/UserModel')
 const { makePasswordHash } = require('./common/makePasswordHash')
 const logger = require('../../logger')
 
-class CreateUserAction extends BaseAction {
+class SignInUserAction extends BaseAction {
+
   static get validationRules () {
     return {
       body: {
-        id: new RequestRule(UserModel.schema.id),
+        name: new RequestRule(UserModel.schema.name, { required: true }),
+        username: new RequestRule(UserModel.schema.username, { required: true }),
         email: new RequestRule(UserModel.schema.email, { required: true }),
-        password: new RequestRule(UserModel.schema.passwordHash, { required: true }),
-        created_date: new RequestRule(UserModel.schema.created_date),
-        modified_date: new RequestRule(UserModel.schema.modified_date)
+        location: new RequestRule(UserModel.schema.location),
+        password: new RequestRule(UserModel.schema.passwordHash, { required: true })
       }
     }
   }
 
   static async run (ctx) {
-    console.log('fldjrshljksjfdlkjkldjfslk')
-    console.log('ctx param in user action', ctx)
     const hash = await makePasswordHash(ctx.body.password)
     delete ctx.body.password
 
     // Make some db query here
-    UserModel.create(ctx, hash)
     // const user = await UserDAO.create({
     //   ...ctx.body,
     //   passwordHash: hash
@@ -36,4 +34,4 @@ class CreateUserAction extends BaseAction {
   }
 }
 
-module.exports = CreateUserAction
+module.exports = SignInUserAction

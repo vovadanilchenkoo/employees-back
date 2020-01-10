@@ -1,10 +1,10 @@
 const BaseAction = require('../BaseAction')
-const PostDAO = require('../../dao/PostDAO')
+// const PostDAO = require('../../dao/PostDAO')
 
-class ListPostsAction extends BaseAction {
-  static get accessTag () {
-    return 'posts:list'
-  }
+class ListEmployeesAction extends BaseAction {
+  // static get accessTag () {
+  //   return 'posts:list'
+  // }
 
   static get validationRules () {
     return {
@@ -16,7 +16,9 @@ class ListPostsAction extends BaseAction {
 
   static async run (req) {
     const { query } = req
-    const data = await PostDAO.baseGetList({ ...query })
+
+    // Make some db query
+    // const data = await PostDAO.baseGetList({ ...query })
 
     return this.result({
       data: data.results,
@@ -25,4 +27,4 @@ class ListPostsAction extends BaseAction {
   }
 }
 
-module.exports = ListPostsAction
+module.exports = ListEmployeesAction
