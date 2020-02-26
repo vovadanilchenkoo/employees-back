@@ -1,13 +1,8 @@
 const { RequestRule } = require('supra-core')
 const BaseAction = require('../BaseAction')
-// const PostDAO = require('../../dao/PostDAO')
 const EmployeeModel = require('../../models/EmployeeModel')
 
 class RemoveEmployeeAction extends BaseAction {
-  // static get accessTag () {
-  //   return 'posts:delete'
-  // }
-
   static get validationRules () {
     return {
       params: {
@@ -16,14 +11,10 @@ class RemoveEmployeeAction extends BaseAction {
     }
   }
 
-  static async run (req) {
-    const { currentUser } = req
+  static async run (ctx) {
+    await EmployeeModel.remove(ctx.params.id, ctx.currentUser.id)
 
-    // Make some db query
-    // const model = await PostDAO.baseGetById(+req.params.id)
-    // await PostDAO.baseRemove(+req.params.id)
-
-    return this.result({ message: `${req.params.id} was removed` })
+    return this.result({ message: `${ctx.params.id} was removed` })
   }
 }
 

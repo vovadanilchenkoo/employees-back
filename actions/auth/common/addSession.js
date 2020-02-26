@@ -1,8 +1,9 @@
 const { assert } = require('supra-core')
-const { SessionEntity } = require('./SessionEntity')
 const UserModel = require('../../../models/UserModel')
+const SessionModel = require('../../../models/SessionModel')
+const { SessionEntity } = require('./SessionEntity')
 
-const MAX_SESSIONS_COUNT = 5
+const MAX_SESSIONS_COUNT = 2
 
 async function addSession (session) {
   assert.instanceOf(session, SessionEntity)
@@ -17,19 +18,19 @@ async function addSession (session) {
 
 async function _isValidSessionsCount (userId) {
   assert.validate(userId, UserModel.schema.id, { required: true })
-
-  // const existingSessionsCount = await SessionDAO.baseGetCount({ userId })
-  return existingSessionsCount < MAX_SESSIONS_COUNT
+  
+  const existingSessionsCount = await SessionModel.baseGetCount(userId)
+  return existingSessionsCount <= MAX_SESSIONS_COUNT
 }
 
 async function _addSession (session) {
   // for better performance store sessions in Redis persistence
-  // await SessionDAO.baseCreate(session)
+  await SessionModel.baseCreate(session)
 }
 
 async function _wipeAllUserSessions (userId) {
   assert.validate(userId, UserModel.schema.id, { required: true })
-  // return await SessionDAO.baseRemoveWhere({ userId })
+  return await SessionModel.baseRemoveWhere({ table: 'sessions', column: 'user_id', value: userId })
 }
 
 module.exports = { addSession }

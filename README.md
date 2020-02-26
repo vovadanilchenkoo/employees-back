@@ -41,10 +41,7 @@ For example `EmployeesController` implement routes of `post` entity. Each route 
 ### 2. Action layer
 It's a class that encapsulated request validation, permission verification and business logic. One file, one class, one REST operation, one use case.
 
-### 3. DAO layer
-Implement data access methods.
-
-### 4. Model layer
+### 3. Model layer
 Represent models schemas and validation rules. There is no other logic __only model fields and validation rules__.
 ## Development:
 

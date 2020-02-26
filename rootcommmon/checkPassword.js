@@ -5,9 +5,9 @@ const { errorCodes, AppError, assert } = require('supra-core')
  * @description make from req.body.password hash and compare it with existing password hash
  * @return {Promise} true/Error
  */
-function checkPassword (password, hash) {
-  assert.string(password, { notEmpty: true })
+function checkPassword (hash, password) {
   assert.string(hash, { notEmpty: true })
+  assert.string(password, { notEmpty: true })
 
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (error, result) => {

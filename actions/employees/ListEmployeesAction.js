@@ -1,11 +1,7 @@
 const BaseAction = require('../BaseAction')
-// const PostDAO = require('../../dao/PostDAO')
+const EmployeeModel = require('../../models/EmployeeModel')
 
 class ListEmployeesAction extends BaseAction {
-  // static get accessTag () {
-  //   return 'posts:list'
-  // }
-
   static get validationRules () {
     return {
       query: {
@@ -14,16 +10,10 @@ class ListEmployeesAction extends BaseAction {
     }
   }
 
-  static async run (req) {
-    const { query } = req
+  static async run (ctx) {
+    const data = await EmployeeModel.getAll(ctx.currentUser.id)
 
-    // Make some db query
-    // const data = await PostDAO.baseGetList({ ...query })
-
-    return this.result({
-      data: data.results,
-      headers: { 'X-Total-Count': data.total }
-    })
+    return this.result({ data: data.rows })
   }
 }
 

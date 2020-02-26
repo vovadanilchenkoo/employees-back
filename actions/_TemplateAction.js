@@ -4,10 +4,6 @@ const Rule = require('../core/Rule')
 const UserModel = require('../models/UserModel')
 
 class TemplateAction extends BaseAction {
-  static get accessTag () {
-    return 'template:template'
-  }
-
   static get validationRules () {
     return {
       params: {},

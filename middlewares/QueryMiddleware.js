@@ -12,8 +12,10 @@ class QueryMiddleware extends BaseMiddleware {
         // validate content-type
         const contentType = req.headers['Content-Type'] || req.headers['content-type']
         const validContentType = ['application/json', 'multipart/form-data']
-        if (!contentType || !validContentType.includes(contentType)) {
-          throw new AppError({ ...errorCodes.BAD_REQUEST, message: `Invalid content type. Expect one of: [${validContentType}]` })
+        if(req.method !== 'GET' && req.method !== 'OPTIONS') {
+          if (!contentType || !validContentType.includes(contentType)) {
+            throw new AppError({ ...errorCodes.BAD_REQUEST, message: `Invalid content type. Expect one of: [${validContentType}]` })
+          }
         }
 
         // get method default query
@@ -27,7 +29,6 @@ class QueryMiddleware extends BaseMiddleware {
             ...((req.query.orderBy && req.query.orderBy.direction && { direction: req.query.orderBy.direction }) || { direction: 'asc' })
           }
         } : { ...req.query }
-
         next()
       } catch (error) {
         next(error)

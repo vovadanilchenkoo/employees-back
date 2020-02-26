@@ -1,10 +1,11 @@
 const isUUID = require('validator/lib/isUUID')
 const isIP = require('validator/lib/isIP')
-const { BaseModel, Rule } = require('supra-core')
-
+const { BaseModel, Rule, assert } = require('supra-core')
 const UserModel = require('./UserModel')
 
 const schema = {
+  ...BaseModel.genericSchema,
+
   userId: UserModel.schema.id,
   refreshToken: new Rule({
     validator: v => isUUID(v),
@@ -31,6 +32,16 @@ const schema = {
 class SessionModel extends BaseModel {
   static get schema () {
     return schema
+  }
+
+  static async getByRefreshToken (refreshToken) {
+    assert.string(refreshToken, { notEmpty: true })
+
+    const sqlQuery = 'SELECT * from sessions WHERE refresh_token = $1'
+
+    const result = await this.dbQuery(sqlQuery, [refreshToken])
+    if (!result) throw this.errorEmptyResponse()
+    return result
   }
 }
 

@@ -1,13 +1,8 @@
 const { RequestRule } = require('supra-core')
 const BaseAction = require('../BaseAction')
-// const PostDAO = require('../../dao/PostDAO')
 const EmployeeModel = require('../../models/EmployeeModel')
 
 class GetEmployeeByIdAction extends BaseAction {
-  // static get accessTag () {
-  //   return 'posts:get-by-id'
-  // }
-
   static get validationRules () {
     return {
       params: {
@@ -16,13 +11,10 @@ class GetEmployeeByIdAction extends BaseAction {
     }
   }
 
-  static async run (req) {
-    const { currentUser } = req
+  static async run (ctx) {
+    const data = await EmployeeModel.baseGetById({ table: 'employees', id: ctx.params.id })
 
-    // Make some db query
-    // const model = await PostDAO.baseGetById(req.params.id)
-
-    return this.result({ data: model })
+    return this.result({ data: { ...data.rows[0] } })
   }
 }
 

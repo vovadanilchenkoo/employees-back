@@ -7,7 +7,7 @@ const { errorCodes, AppError, assert } = require('supra-core')
 function jwtVerify (token, SECRET) {
   assert.string(token, { notEmpty: true })
   assert.string(SECRET, { notEmpty: true })
-
+  
   return new Promise((resolve, reject) => {
     jwt.verify(token, SECRET, (error, decoded) => {
       if (error) {
@@ -22,15 +22,14 @@ function jwtVerify (token, SECRET) {
 }
 
 /**
+ * @param {string} ctx
  * @return {Promise} string (token)
  */
-function jwtSign (playload, SECRET, options) {
-  assert.object(playload, { required: true })
-  assert.string(SECRET, { notEmpty: true })
-  assert.object(options, { notEmpty: true })
-
+function jwtSign (id, SECRET, options) {
+  assert.string(id, { required: true })
+  
   return new Promise((resolve, reject) => {
-    jwt.sign(playload, SECRET, options, (error, token) => {
+    jwt.sign({ userId: id }, SECRET, options, (error, token) => {
       if (error) return reject(new AppError({ ...errorCodes.TOKEN_NOT_SIGNED, message: error.message }))
       return resolve(token)
     })

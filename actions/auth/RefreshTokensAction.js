@@ -1,23 +1,19 @@
 const { RequestRule } = require('supra-core')
+const { SessionEntity } = require('./common/SessionEntity')
 const { addSession } = require('./common/addSession')
 const { verifySession } = require('./common/verifySession')
-const BaseAction = require('../BaseAction')
-// const UserDAO = require('../../dao/UserDAO')
-const AuthModel = require('../../models/AuthModel')
-// const SessionDAO = require('../../dao/SessionDAO')
-const { SessionEntity } = require('./common/SessionEntity')
 const { makeAccessToken } = require('./common/makeAccessToken')
+const BaseAction = require('../BaseAction')
+const AuthModel = require('../../models/AuthModel')
+const SessionModel = require('../../models/SessionModel')
 
 class RefreshTokensAction extends BaseAction {
-  static get accessTag () {
-    return 'auth:refresh-tokens'
-  }
-
   static get validationRules () {
     return {
       body: {
+        accessToken: new RequestRule(AuthModel.schema.accessToken, { required: true }),
         refreshToken: new RequestRule(AuthModel.schema.refreshToken, { required: true }),
-        fingerprint: new RequestRule(AuthModel.schema.fingerprint, { required: true }) // https://github.com/Valve/fingerprintjs2
+        fingerprint: new RequestRule(AuthModel.schema.fingerprint, { required: true })
       }
     }
   }
@@ -25,25 +21,24 @@ class RefreshTokensAction extends BaseAction {
   static async run (ctx) {
     const reqRefreshToken = ctx.body.refreshToken
     const reqFingerprint = ctx.body.fingerprint
-
-    // const oldSession = await SessionDAO.getByRefreshToken(reqRefreshToken)
-    // await SessionDAO.baseRemoveWhere({ refreshToken: reqRefreshToken })
-    await verifySession(new SessionEntity(oldSession), reqFingerprint)
-    // const user = await UserDAO.baseGetById(oldSession.userId)
-
+    
+    const oldSession = await SessionModel.getByRefreshToken(reqRefreshToken)
+    await SessionModel.baseRemoveWhere({ table: 'sessions', column: 'user_id', value: oldSession.rows[0].user_id })
+    await verifySession(new SessionEntity(oldSession.rows[0]), reqFingerprint)
     const newSession = new SessionEntity({
-      userId: user.id,
+      user_id: oldSession.rows[0].user_id,
       ip: ctx.ip,
       ua: ctx.headers['User-Agent'],
-      fingerprint: reqFingerprint
+      fingerprint: ctx.body.fingerprint
     })
 
     await addSession(newSession)
 
     return this.result({
       data: {
-        accessToken: await makeAccessToken(user),
-        refreshToken: newSession.refreshToken
+        accessToken: await makeAccessToken(oldSession.rows[0].user_id).accessToken,
+        refreshToken: newSession.refreshToken,
+        expireAt: makeAccessToken(oldSession.rows[0].user_id).expireAt
       }
     })
   }

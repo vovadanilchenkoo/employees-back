@@ -1,9 +1,11 @@
 const LoginAction = require('./LoginAction')
-const RefreshTokensAction = require('./RefreshTokensAction')
 const LogoutAction = require('./LogoutAction')
+const RefreshTokensAction = require('./RefreshTokensAction')
+const LoginFacebookAction = require('./LoginFacebookAction')
 
 module.exports = {
   LoginAction,
+  LogoutAction,
   RefreshTokensAction,
-  LogoutAction
+  LoginFacebookAction
 }

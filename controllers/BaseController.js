@@ -8,18 +8,17 @@ class BaseController {
 
   actionRunner (action) {
     assert.func(action, { required: true })
-
+    
     if (!action.hasOwnProperty('run')) {
       throw new Error(`'run' method not declared in invoked '${action.name}' action`)
     }
-
     return async (req, res, next) => {
       assert.object(req, { required: true })
       assert.object(res, { required: true })
       assert.func(next, { required: true })
 
       const ctx = {
-        currentUser: req.currentUser,
+        currentUser: req.user,
         body: req.body,
         query: req.query,
         params: req.params,
@@ -29,6 +28,7 @@ class BaseController {
         headers: {
           'Content-Type': req.get('Content-Type'),
           Referer: req.get('referer'),
+          Token: req.get('x-access-token') || '',
           'User-Agent': req.get('User-Agent')
         }
       }

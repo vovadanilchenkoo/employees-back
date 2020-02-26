@@ -1,7 +1,8 @@
 const { errorCodes, BaseMiddleware } = require('supra-core')
 const { jwtVerify } = require('../rootcommmon/jwt')
-const SECRET = require('../config').token.access.secret
+const { isTokenBlacklisted } = require('../rootcommmon/accessTokenBlacklist')
 const logger = require('../logger')
+require('dotenv').config()
 
 class CheckAccessTokenMiddleware extends BaseMiddleware {
   async init () {
@@ -10,28 +11,32 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
 
   handler () {
     return (req, res, next) => {
-      const authorization = req.headers['authorization'] || req.headers['Authorization']
-      const bearer = authorization && authorization.startsWith('Bearer ') ? authorization : null
-      const token = bearer ? bearer.split('Bearer ')[1] : null
-
+      const token = req.headers['x-access-token'] || req.headers['authorization'] || req.headers['Authorization']
       // set default meta data
-      req.currentUser = Object.freeze({
+      req.user = Object.freeze({
         id: null,
         name: null,
         email: null,
         expiresIn: null
       })
-
-      if (token) {
-        return jwtVerify(token, SECRET)
-          .then(tokenData => {
+      
+      // if request on /auth routes move next else authorize request
+      if (req.path === '/auth/sign-in' || req.path === '/auth/sign-out' || req.path === '/user/create' || req.method === 'OPTIONS') {
+        next()
+      } else {
+        return jwtVerify(token, process.env.SECRET)
+        .then(tokenData => {
             // set actual current user
-            req.currentUser = Object.freeze({
-              id: tokenData.sub,
-              name: tokenData.username,
-              email: tokenData.email,
-              expiresIn: Number(tokenData.exp)
+            const userId = tokenData.userId
+            const expiresIn = Number(tokenData.exp)
+
+            req.user = Object.freeze({
+              id: userId,
+              expiresIn: expiresIn
             })
+
+            // check in redis if accessToken is "blacklisted"
+            isTokenBlacklisted(userId)
 
             next()
           }).catch(error => {
@@ -46,7 +51,6 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
             }
           })
       }
-      next()
     }
   }
 }

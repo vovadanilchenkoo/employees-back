@@ -1,17 +1,12 @@
 const { RequestRule, AppError, errorCodes } = require('supra-core')
-const { addSession } = require('./common/addSession')
 const BaseAction = require('../BaseAction')
-// const UserDAO = require('../../dao/UserDAO')
 const AuthModel = require('../../models/AuthModel')
 const { SessionEntity } = require('./common/SessionEntity')
 const { makeAccessToken } = require('./common/makeAccessToken')
 const { checkPassword } = require('../../rootcommmon/checkPassword')
+const { addSession } = require('./common/addSession')
 
 class LoginAction extends BaseAction {
-  static get accessTag () {
-    return 'auth:login'
-  }
-
   static get validationRules () {
     return {
       body: {
@@ -23,11 +18,15 @@ class LoginAction extends BaseAction {
   }
 
   static async run (ctx) {
+    if (!ctx.body.email || !ctx.body.password) {
+      return res.status(400).send({'message': 'Some values are missing'});
+    }
+
     let user = {}
 
     try {
-      // user = await UserDAO.getByEmail(ctx.body.email)
-      await checkPassword(ctx.body.password, user.passwordHash)
+      user = await AuthModel.getUserByEmail(ctx.body.email)
+      await checkPassword(user[0].password, ctx.body.password)
     } catch (e) {
       if ([errorCodes.NOT_FOUND.code, errorCodes.INVALID_PASSWORD.code].includes(e.code)) {
         throw new AppError({ ...errorCodes.INVALID_CREDENTIALS })
@@ -36,7 +35,7 @@ class LoginAction extends BaseAction {
     }
 
     const newSession = new SessionEntity({
-      userId: user.id,
+      user_id: user[0].id,
       ip: ctx.ip,
       ua: ctx.headers['User-Agent'],
       fingerprint: ctx.body.fingerprint
@@ -46,8 +45,9 @@ class LoginAction extends BaseAction {
 
     return this.result({
       data: {
-        accessToken: await makeAccessToken(user),
-        refreshToken: newSession.refreshToken
+        accessToken: await makeAccessToken(user[0].id).accessToken,
+        refreshToken: newSession.refreshToken,
+        expireAt: makeAccessToken(user[0].id).expireAt
       }
     })
   }
