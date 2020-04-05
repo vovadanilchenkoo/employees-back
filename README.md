@@ -6,8 +6,9 @@
 - [Postgresql](https://www.postgresql.org/)
 - [Redis](https://redis.js.org/)
 
-### Install global dependencies:
+### Install local/global dependencies:
 ```
+yarn install
 yarn global add knex nodemon
 ```
 
