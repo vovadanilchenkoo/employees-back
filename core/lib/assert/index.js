@@ -5,7 +5,8 @@ const util = require('util')
 var { Stream } = require('stream')
 
 const UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const URL_REGEXP = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
+const URL_REGEXP_HTTP = /^(http?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
+const URL_REGEXP_HTTPS = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
 const validTypes = [Number, String, Object, Array, Boolean, Function]
 
 function isObject (v) {
@@ -138,7 +139,7 @@ class Assert {
 
   static url (value, { required = false, message = '' } = {}) {
     Assert.string(value, { required, message })
-    if (value && !URL_REGEXP.test(value)) Assert.fail(value, 'URL', message)
+    if (value && (!URL_REGEXP_HTTP.test(value) || !URL_REGEXP_HTTPS.test(value))) Assert.fail(value, 'URL', message)
   }
 }
 

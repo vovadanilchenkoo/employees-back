@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const { errorCodes, AppError, assert } = require('supra-core')
 
 /**
+ * @param {string} token
+ * @param {string} SECRET
  * @return {Promise} true/Error
  */
 function jwtVerify (token, SECRET) {
@@ -22,7 +24,9 @@ function jwtVerify (token, SECRET) {
 }
 
 /**
- * @param {string} ctx
+ * @param {string} id
+ * @param {string} SECRET
+ * @param {object} options
  * @return {Promise} string (token)
  */
 function jwtSign (id, SECRET, options) {

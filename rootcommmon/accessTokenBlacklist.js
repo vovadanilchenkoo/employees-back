@@ -5,7 +5,7 @@ const { errorCodes, AppError, assert } = require('supra-core')
 const redisClient = redis.createClient()
 
 /**
- * @param {String} accessToken 
+ * @param {string} accessToken 
  * @return {Promise} true/Error
  */
 function setTokenToBlacklist(accessToken) {
@@ -16,19 +16,19 @@ function setTokenToBlacklist(accessToken) {
       const currentTime = Math.round(Date.now() / 1000)
       const expireAt = tokenExpirationDate - currentTime
 
-      redisClient.set(tokenData.userId, accessToken, 'EX', expireAt)
+      redisClient.set(tokenData.jti, accessToken, 'EX', expireAt)
     }).catch(error => {
       return error
     })
 }
 
 /**
- * @param {String} accessToken
- * @param {String} userId
+ * @param {string} accessToken
+ * @param {string} userId
  * @return {Promise} true/Error
  */
-async function isTokenBlacklisted(userId) {
-  redisClient.get(userId, function(err, res) {
+async function isTokenBlacklisted(user_id) {
+  redisClient.get(user_id, function(err, res) {
     if(res !== null) {
       throw new AppError({ 
         ...errorCodes.TOKEN_EXPIRED,

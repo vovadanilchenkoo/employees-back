@@ -17,6 +17,11 @@ class LoginAction extends BaseAction {
     }
   }
 
+  /**
+   * Run action
+   * @param {object} ctx
+   * @returns {object} data object
+   */
   static async run (ctx) {
     if (!ctx.body.email || !ctx.body.password) {
       return res.status(400).send({'message': 'Some values are missing'});

@@ -12,12 +12,9 @@ class CreateUserAction extends BaseAction {
   static get validationRules () {
     return {
       body: {
-        id: new RequestRule(UserModel.schema.id),
         email: new RequestRule(UserModel.schema.email, { required: true }),
         password: new RequestRule(UserModel.schema.password, { required: true }),
         fingerprint: new RequestRule(SessionModel.schema.fingerprint, { required: true }),
-        created_date: new RequestRule(UserModel.schema.created_date),
-        modified_date: new RequestRule(UserModel.schema.modified_date)
       }
     }
   }
@@ -25,16 +22,16 @@ class CreateUserAction extends BaseAction {
   /**
    * Run action
    * @param {object} ctx
-   * @returns {object} data
+   * @returns {object} data object
    */
   static async run (ctx) {
     const hash = await makePasswordHash(ctx.body.password)
     delete ctx.body.password
 
     const user = await UserModel.create(ctx, hash)
-
+    
     const newSession = new SessionEntity({
-      userId: user[0].id,
+      user_id: user[0].id,
       ip: ctx.ip,
       ua: ctx.headers['User-Agent'],
       fingerprint: ctx.body.fingerprint

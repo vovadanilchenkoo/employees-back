@@ -32,13 +32,24 @@ class UserModel extends BaseModel {
       users(id, email, password, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5)
       returning *`;
-    const values = [
-      uuidv4(),
-      data.body.email,
-      hash,
-      moment(new Date()),
-      moment(new Date())
-    ];
+    let values
+    if(data.emails) {
+      values = [
+        uuidv4(),
+        data.emails[0].value,
+        hash,
+        moment(new Date()),
+        moment(new Date())
+      ]
+    } else {
+      values = [
+        uuidv4(),
+        data.body.email,
+        hash,
+        moment(new Date()),
+        moment(new Date())
+      ]
+    }
 
     try {
       const { rows } = await this.dbQuery(sqlQuery, values)
@@ -49,6 +60,17 @@ class UserModel extends BaseModel {
         return 'User with that EMAIL already exist'
       }
       return error;
+    }
+  }
+
+  static async createOrFindUser (profile) {
+    const findQuery = 'SELECT * from users WHERE email = $1'
+    const foundUser = await this.dbQuery(findQuery, [profile.emails[0].value])
+
+    if(!foundUser.rows[0]) {
+      return await this.create(profile, '')
+    } else {
+      return foundUser.rows
     }
   }
 }

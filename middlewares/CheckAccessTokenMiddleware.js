@@ -21,7 +21,7 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
       })
       
       // if request on /auth routes move next else authorize request
-      if (req.path === '/auth/sign-in' || req.path === '/auth/sign-out' || req.path === '/user/create' || req.method === 'OPTIONS') {
+      if (req.path.includes('/auth/') || req.path === '/favicon.ico' || req.path === '/user/create' || req.method === 'OPTIONS') {
         next()
       } else {
         return jwtVerify(token, process.env.SECRET)
@@ -36,7 +36,8 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
             })
 
             // check in redis if accessToken is "blacklisted"
-            isTokenBlacklisted(userId)
+            // isTokenBlacklisted(userId)
+            isTokenBlacklisted(tokenData.jti)
 
             next()
           }).catch(error => {

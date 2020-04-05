@@ -10,6 +10,11 @@ class ListEmployeesAction extends BaseAction {
     }
   }
 
+  /**
+   * Run action
+   * @param {object} ctx
+   * @returns {object} data object
+   */
   static async run (ctx) {
     const data = await EmployeeModel.getAll(ctx.currentUser.id)
 

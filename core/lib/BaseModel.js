@@ -123,8 +123,8 @@ class BaseModel {
       entity.fingerprint,
       entity.ip,
       entity.expiredAt,
-      entity.updatedAt,
-      entity.createdAt
+      entity.createdAt,
+      entity.updatedAt
     ]
 
     return this.dbQuery(sqlQuery, values)
@@ -132,7 +132,6 @@ class BaseModel {
 
   static async baseRemoveWhere (where = {}) {
     assert.object(where, { required: true })
-    console.log(where)
 
     const sqlQuery = `DELETE FROM ${where.table} WHERE ${where.column} = $1`
 

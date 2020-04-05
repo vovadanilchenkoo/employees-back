@@ -4,7 +4,7 @@ const uuidV4 = require('uuid/v4')
 const isUUID = require('validator/lib/isUUID')
 const { BaseModel, Rule } = require('supra-core')
 
-// TODO: check all validation scheemas and set right rules
+// TODO: check all validation schemas and set right rules
 
 const schema = {
   id: new Rule({
@@ -25,7 +25,6 @@ const schema = {
   }),
   start_working_at: new Rule({
     validator: v => {
-      console.log('start_working_at value -', v)
       return typeof v === 'string' && v.length >= 10
     },
     description: 'string; must contain 10 characters, like in string, for example "20-10-2020"'

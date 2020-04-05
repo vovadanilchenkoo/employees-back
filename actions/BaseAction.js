@@ -52,9 +52,9 @@ class BaseAction {
 
   static redirect (options) {
     assert.object(options, { required: true })
-    assert.url(options.url, { required: true })
+    // assert.url(options.url, { required: true })
     assert.integer(options.code)
-
+    
     return {
       redirect: {
         status: options.status || 301,

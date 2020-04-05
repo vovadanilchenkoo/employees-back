@@ -18,6 +18,7 @@ class BaseController {
       assert.func(next, { required: true })
 
       const ctx = {
+        authInfo: req.authInfo || '',
         currentUser: req.user,
         body: req.body,
         query: req.query,
@@ -73,7 +74,7 @@ class BaseController {
         /**
          * optional redirect
          */
-        if (response.redirect) return res.redirect(response.redirect.status, response.redirect.url)
+        if (response.redirect) return res.redirect(response.redirect.url)
 
         /**
          * set status and return result to client
@@ -97,8 +98,7 @@ class BaseController {
 
     const schemaKeys = Object.keys(requestSchema)
     const srcKeys = Object.keys(src)
-
-    const defaultValidKeys = ['offset', 'page', 'limit', 'filter', 'orderBy']
+    const defaultValidKeys = ['code', 'offset', 'page', 'limit', 'filter', 'orderBy']
     const invalidExtraKeys = srcKeys.filter(srcKey => !schemaKeys.includes(srcKey) && !defaultValidKeys.includes(srcKey))
     if (invalidExtraKeys.length) {
       throw new AppError({

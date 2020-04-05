@@ -1,6 +1,7 @@
 const ms = require('ms')
 const { assert } = require('supra-core')
 const { jwtSign } = require('../../../rootcommmon/jwt')
+const uuidV4 = require('uuid/v4')
 require('dotenv').config()
 
 /**
@@ -9,8 +10,11 @@ require('dotenv').config()
  */
 function makeAccessToken (id) {
   assert.string(id, { required: true })
-
-  const options = { expiresIn: process.env.TOKEN_ACCESS_EXP }
+  
+  const options = { 
+    jwtid: uuidV4(),
+    expiresIn: process.env.TOKEN_ACCESS_EXP 
+  }
   const expireAt = (Date.now() / 1000) + (ms(process.env.TOKEN_ACCESS_EXP) / 1000)
 
   return {

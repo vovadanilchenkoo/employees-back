@@ -10,7 +10,6 @@ const expiredAtPeriodSec = ms(process.env.TOKEN_ACCESS_EXP)
 
 class SessionEntity {
   constructor (src = {}) {
-    console.log(src)
     assert.validate(src.user_id, UserModel.schema.id, { required: true })
     assert.validate(src.fingerprint, SessionModel.schema.fingerprint, { required: true })
     assert.validate(src.ip, SessionModel.schema.ip, { required: true })

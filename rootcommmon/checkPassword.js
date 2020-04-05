@@ -3,6 +3,8 @@ const { errorCodes, AppError, assert } = require('supra-core')
 
 /**
  * @description make from req.body.password hash and compare it with existing password hash
+ * @param {strig} hash
+ * @param {string} password
  * @return {Promise} true/Error
  */
 function checkPassword (hash, password) {

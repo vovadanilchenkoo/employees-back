@@ -19,6 +19,8 @@
     "ms": "^2.1.2",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
+    "passport-github": "^1.1.0",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^7.17.1",
     "redis": "^2.8.0",
     "stack-trace": "0.0.10",

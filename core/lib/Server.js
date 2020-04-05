@@ -1,9 +1,12 @@
+require('dotenv').config()
 const express = require('express')
 const path = require('path')
 // const favicon = require('serve-favicon')
 const morganLogger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const FacebookStrategy = require('passport-facebook').Strategy
 
 const { Assert: assert } = require('./assert')
 const { BaseMiddleware } = require('./BaseMiddleware')
@@ -17,8 +20,8 @@ class Server {
     assert.array(middlewares, { required: true, notEmpty: true, message: 'middlewares param expects not empty array' })
     assert.instanceOf(errorMiddleware, BaseMiddleware)
     assert.instanceOf(logger, Logger)
-
-    logger.info('Server start initialization...')
+    
+    logger.info('Server start initialization')
     return start({ port, host, controllers, middlewares, errorMiddleware, logger })
   }
 }
@@ -33,6 +36,7 @@ function start ({ port, host, controllers, middlewares, errorMiddleware, logger 
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(cookieParser())
+    app.use(passport.initialize())
     // use static/public folder
     app.use(express.static(path.join(__dirname, 'public')))
 
@@ -76,12 +80,12 @@ function start ({ port, host, controllers, middlewares, errorMiddleware, logger 
     /**
      * Not found route handler
      */
-    app.use((req, res) => {
-      res.status(404).json({
-        message: `Route: '${req.url}' not found`,
-        code: 'ROUTE_NOT_FOUND_ERROR'
-      })
-    })
+    // app.use((req, res) => {
+    //   res.status(404).json({
+    //     message: `Route: '${req.url}' not found`,
+    //     code: 'ROUTE_NOT_FOUND_ERROR'
+    //   })
+    // })
 
     process.on('unhandledRejection', (reason, promise) => {
       logger.error('unhandledRejection', reason)

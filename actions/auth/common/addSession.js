@@ -7,7 +7,7 @@ const MAX_SESSIONS_COUNT = 2
 
 async function addSession (session) {
   assert.instanceOf(session, SessionEntity)
-
+  
   if (await _isValidSessionsCount(session.userId)) {
     await _addSession(session)
   } else {
@@ -30,7 +30,7 @@ async function _addSession (session) {
 
 async function _wipeAllUserSessions (userId) {
   assert.validate(userId, UserModel.schema.id, { required: true })
-  return await SessionModel.baseRemoveWhere({ table: 'sessions', column: 'user_id', value: userId })
+  return await SessionModel.baseRemoveWhere({ table: 'sessions', column: 'userId', value: userId })
 }
 
 module.exports = { addSession }

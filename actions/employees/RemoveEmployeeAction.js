@@ -11,6 +11,11 @@ class RemoveEmployeeAction extends BaseAction {
     }
   }
 
+  /**
+   * Run action
+   * @param {object} ctx
+   * @returns {object} data object
+   */
   static async run (ctx) {
     await EmployeeModel.remove(ctx.params.id, ctx.currentUser.id)
 
