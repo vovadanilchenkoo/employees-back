@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('../core/node_modules/express').Router()
 
 const { passportInit } = require('../rootcommmon/oauth/strategiesConfig')
 const { BaseController } = require('./BaseController')
@@ -29,7 +29,6 @@ class AuthController extends BaseController {
       passport.authenticate('google', {scope: 'email', callbackURL: `/auth/google/callback`, state: req.query.fingerprint})(req, res, next)
     })
     router.get('/auth/google/callback', (req, res, next) => {
-      console.log('auth controller google callback -', req.authInfo)
       passport.authenticate('google', {callbackURL: `/auth/google/callback`})(req, res, next)
     }, this.actionRunner(actions.OauthCallbackAction))
 

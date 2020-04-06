@@ -1,8 +1,14 @@
 const redis = require('redis')
 const { jwtVerify } = require('../rootcommmon/jwt')
-const { errorCodes, AppError, assert } = require('supra-core')
+const { errorCodes, AppError } = require('supra-core')
+require('dotenv').config()
 
-const redisClient = redis.createClient()
+const redisClient = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  user: process.env.REDIS_USER,
+  password: process.env.REDIS_PASSWORD
+})
 
 /**
  * @param {string} accessToken 

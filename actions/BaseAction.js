@@ -1,4 +1,4 @@
-const joi = require('@hapi/joi')
+const joi = require('../core/node_modules/@hapi/joi')
 const { Rule, RequestRule, assert } = require('supra-core')
 
 class BaseAction {

@@ -12,6 +12,7 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
   handler () {
     return (req, res, next) => {
       const token = req.headers['x-access-token'] || req.headers['authorization'] || req.headers['Authorization']
+
       // set default meta data
       req.user = Object.freeze({
         id: null,

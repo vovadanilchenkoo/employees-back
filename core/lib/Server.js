@@ -1,12 +1,10 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
-// const favicon = require('serve-favicon')
 const morganLogger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const passport = require('passport')
-const FacebookStrategy = require('passport-facebook').Strategy
 
 const { Assert: assert } = require('./assert')
 const { BaseMiddleware } = require('./BaseMiddleware')
@@ -30,8 +28,6 @@ function start ({ port, host, controllers, middlewares, errorMiddleware, logger 
   return new Promise(async (resolve, reject) => {
     const app = express()
 
-    // uncomment after placing your favicon in /public
-    // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     if (process.env.NODE_ENV !== 'production') app.use(morganLogger('dev'))
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
@@ -104,7 +100,7 @@ function start ({ port, host, controllers, middlewares, errorMiddleware, logger 
       process.exit(1)
     })
 
-    return app.listen(port, host, () => resolve({ port, host }))
+    return app.listen(port, () => resolve({ port }))
   })
 }
 

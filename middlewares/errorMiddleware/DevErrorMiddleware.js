@@ -1,5 +1,5 @@
 const stdout = require('stdout-stream')
-const chalk = require('chalk')
+const chalk = require('../../core/node_modules/chalk')
 const stackTrace = require('stack-trace')
 const ErrorResponse = require('./ErrorResponse')
 const { errorCodes, BaseMiddleware } = require('supra-core')

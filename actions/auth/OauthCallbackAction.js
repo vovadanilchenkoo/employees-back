@@ -31,7 +31,7 @@ class OauthCallbackAction extends BaseAction {
     }
 
     return this.redirect({
-      url: `http://localhost:3000/sign-in?accessToken=${responseData.accessToken}&refreshToken=${responseData.refreshToken}&expireAt=${responseData.expireAt}`
+      url: `https://postgres-crud.herokuapp.com/sign-in?accessToken=${responseData.accessToken}&refreshToken=${responseData.refreshToken}&expireAt=${responseData.expireAt}`
     })
   }
 }

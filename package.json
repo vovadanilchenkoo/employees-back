@@ -4,8 +4,8 @@
   "private": true,
   "author": "Sasha Zmts",
   "scripts": {
-    "start": "set NODE_ENV=production&& node ./main.js",
-    "dev": "set NODE_ENV=development&& nodemon ./main.js",
+    "start": "node index.js",
+    "dev": "set NODE_ENV=development&& nodemon ./index.js",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
@@ -38,5 +38,8 @@
     "mocha": "^6.2.2",
     "standart": "^6.1.0",
     "supertest": "^4.0.2"
+  },
+  "engines": {
+    "node": "13.11.x"
   }
 }

@@ -1,4 +1,3 @@
-const joi = require('@hapi/joi')
 const moment = require('moment')
 const uuidV4 = require('uuid/v4')
 const isUUID = require('validator/lib/isUUID')

@@ -67,7 +67,7 @@ class BaseModel {
       database: process.env.DB_NAME,
       password: process.env.DB_PASSWORD,
       port: process.env.DB_PORT,
-      // ssl: true
+      ssl: true
     })
 
     return new Promise((resolve, reject) => {
