@@ -28,7 +28,7 @@ const GOOGLE_CONFIG = {
 const GITHUB_CONFIG = {
   clientID: process.env.GITHUB_APP_ID,
   clientSecret: process.env.GITHUB_APP_SECRET,
-  callbackURL: '/auth/github/callback',
+  callbackURL: 'https://api-postgres-crud.herokuapp.com/auth/github/callback',
   profileFields: ['email'],
   passReqToCallback: true
 }
