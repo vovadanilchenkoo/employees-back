@@ -25,7 +25,6 @@ class CreateUserAction extends BaseAction {
    * @returns {object} data object
    */
   static async run (ctx) {
-    console.log('CreateUserAction run()', ctx.ip)
     const hash = await makePasswordHash(ctx.body.password)
     delete ctx.body.password
 

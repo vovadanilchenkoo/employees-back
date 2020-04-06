@@ -34,11 +34,9 @@ class AuthController extends BaseController {
 
     // Github authentication
     router.get('/auth/github', (req, res, next) => {
-      passport.authenticate('github', {scope: 'email', callbackURL: `/auth/github/callback`, state: req.query.fingerprint})(req, res, next)
+      passport.authenticate('github', {scope: 'email', state: req.query.fingerprint})(req, res, next)
     })
-    router.get('/auth/github/callback', (req, res, next) => {
-      passport.authenticate('github', {callbackURL: `/auth/github/callback`})(req, res, next)
-    }, this.actionRunner(actions.OauthCallbackAction))
+    router.get('/auth/github/callback', passport.authenticate('github'), this.actionRunner(actions.OauthCallbackAction))
 
     return router
   }
