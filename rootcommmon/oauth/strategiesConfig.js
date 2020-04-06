@@ -16,19 +16,21 @@ passport.deserializeUser((user, cb) => {
 const FACEBOOK_CONFIG = {
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: process.env.FACEBOOK_CALLBACK_URL,
   profileFields: ['email'],
   passReqToCallback: true
 }
 const GOOGLE_CONFIG = {
   clientID: process.env.GOOGLE_APP_ID,
   clientSecret: process.env.GOOGLE_APP_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL,
   profileFields: ['email'],
   passReqToCallback: true
 }
 const GITHUB_CONFIG = {
   clientID: process.env.GITHUB_APP_ID,
   clientSecret: process.env.GITHUB_APP_SECRET,
-  callbackURL: 'https://api-postgres-crud.herokuapp.com/auth/github/callback',
+  callbackURL: process.env.GITHUB_CALLBACK_URL,
   profileFields: ['email'],
   passReqToCallback: true
 }

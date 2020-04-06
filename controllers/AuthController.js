@@ -18,19 +18,15 @@ class AuthController extends BaseController {
     router.post('/auth/refresh-tokens', this.actionRunner(actions.RefreshTokensAction))
     // Facebook authentication
     router.get('/auth/facebook', (req, res, next) => {
-      passport.authenticate('facebook', {scope: 'email', callbackURL: '/auth/facebook/callback', state: req.query.fingerprint})(req, res, next)
+      passport.authenticate('facebook', {scope: 'email', state: req.query.fingerprint})(req, res, next)
     })
-    router.get('/auth/facebook/callback', (req, res, next) => {
-      passport.authenticate('facebook', {callbackURL: '/auth/facebook/callback'})(req, res, next)
-    }, this.actionRunner(actions.OauthCallbackAction))
+    router.get('/auth/facebook/callback', passport.authenticate('facebook'), this.actionRunner(actions.OauthCallbackAction))
 
     // Google authentication
     router.get('/auth/google', (req, res, next) => {
-      passport.authenticate('google', {scope: 'email', callbackURL: `/auth/google/callback`, state: req.query.fingerprint})(req, res, next)
+      passport.authenticate('google', {scope: 'email', state: req.query.fingerprint})(req, res, next)
     })
-    router.get('/auth/google/callback', (req, res, next) => {
-      passport.authenticate('google', {callbackURL: `/auth/google/callback`})(req, res, next)
-    }, this.actionRunner(actions.OauthCallbackAction))
+    router.get('/auth/google/callback', passport.authenticate('google'), this.actionRunner(actions.OauthCallbackAction))
 
     // Github authentication
     router.get('/auth/github', (req, res, next) => {
