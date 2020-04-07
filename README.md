@@ -45,3 +45,9 @@ Path | Method | Description
 /employee/:id | GET | GetEmployeeByIdAction
 /employee/:id | PUT | UpdateEmployeeAction
 /employee/:id | DELETE | RemoveEmployeeAction
+
+Useful lilnks
+<ul>
+  <li>https://github.com/zmts/supra-api-nodejs</li>
+  <li>https://gist.github.com/zmts/6ac57301e2e8e8e9e059e9c087732c05</li>
+</ul>
