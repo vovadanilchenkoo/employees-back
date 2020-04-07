@@ -48,6 +48,6 @@ Path | Method | Description
 
 ### Useful links:
 <ul>
-  <li>https://github.com/zmts/supra-api-nodejs</li>
-  <li>https://gist.github.com/zmts/6ac57301e2e8e8e9e059e9c087732c05</li>
+  <li>Node api template https://github.com/zmts/supra-api-nodejs</li>
+  <li>About node api architecture https://gist.github.com/zmts/6ac57301e2e8e8e9e059e9c087732c05</li>
 </ul>
