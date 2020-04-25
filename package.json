@@ -4,8 +4,8 @@
   "private": true,
   "author": "Sasha Zmts",
   "scripts": {
-    "start": "node index.js",
-    "dev": "set NODE_ENV=development&& nodemon ./index.js",
+    "start": "node ./src/index.js",
+    "dev": "set NODE_ENV=development&& tsc -w &&nodemon ./src/index.js",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
@@ -25,19 +25,21 @@
     "redis": "^2.8.0",
     "stack-trace": "0.0.10",
     "stdout-stream": "^1.4.1",
-    "supra-core": "./core",
+    "supra-core": "./src/core",
     "type-check": "^0.3.2",
     "uuid": "^3.3.3",
     "validator": "^12.1.0"
   },
   "devDependencies": {
+    "@types/node": "^13.13.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^6.7.2",
     "husky": "^3.1.0",
     "mocha": "^6.2.2",
     "standart": "^6.1.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": "13.11.x"
