@@ -29,8 +29,7 @@ class LogoutAction extends BaseAction {
         userId = tokenData.userId
       })
       .catch(err => {
-        // next(err)
-        console.log('LogoutAction error -', err)
+        next(err)
       })
     
     await SessionModel.baseRemoveWhere({ table: 'sessions', column: 'user_id', value: userId })

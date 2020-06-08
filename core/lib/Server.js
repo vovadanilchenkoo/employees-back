@@ -5,6 +5,7 @@ const morganLogger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const cors = require('cors')
 
 const { Assert: assert } = require('./assert')
 const { BaseMiddleware } = require('./BaseMiddleware')
@@ -29,6 +30,7 @@ function start ({ port, host, controllers, middlewares, errorMiddleware, logger 
     const app = express()
 
     if (process.env.NODE_ENV !== 'production') app.use(morganLogger('dev'))
+    app.use(cors())
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(cookieParser())

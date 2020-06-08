@@ -1,4 +1,5 @@
-const express = require('../core/node_modules/express')
+// const express = require('../core/node_modules/express')
+const express = require('express')
 const router = express.Router()
 
 const { BaseController } = require('./BaseController')

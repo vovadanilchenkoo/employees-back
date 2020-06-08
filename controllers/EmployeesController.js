@@ -1,4 +1,5 @@
-const router = require('../core/node_modules/express').Router()
+// const router = require('../core/node_modules/express').Router()
+const router = require('express').Router()
 
 const actions = require('../actions/employees')
 const { BaseController } = require('./BaseController')

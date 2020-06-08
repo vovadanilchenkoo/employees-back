@@ -1,4 +1,5 @@
-const router = require('../core/node_modules/express').Router()
+// const router = require('../core/node_modules/express').Router()
+const router = require('express').Router()
 
 const { passportInit } = require('../rootcommmon/oauth/strategiesConfig')
 const { BaseController } = require('./BaseController')

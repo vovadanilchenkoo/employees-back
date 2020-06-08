@@ -22,6 +22,7 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
       })
       
       // if request on /auth routes move next else authorize request
+
       if (req.path.includes('/auth/') || req.path === '/favicon.ico' || req.path === '/user/create' || req.method === 'OPTIONS') {
         next()
       } else {
@@ -39,7 +40,6 @@ class CheckAccessTokenMiddleware extends BaseMiddleware {
             // check in redis if accessToken is "blacklisted"
             // isTokenBlacklisted(userId)
             isTokenBlacklisted(tokenData.jti)
-
             next()
           }).catch(error => {
             if (error.code === errorCodes.TOKEN_EXPIRED.code) {

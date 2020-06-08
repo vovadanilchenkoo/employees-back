@@ -1,9 +1,12 @@
 require('dotenv').config()
 
-const { Model } = require('supra-core/node_modules/objection')
-const Knex = require('supra-core/node_modules/knex')
+// const { Model } = require('supra-core/node_modules/objection')
+// const Knex = require('supra-core/node_modules/knex')
+const { Model } = require('objection')
+const Knex = require('knex')
 const stdout = require('stdout-stream')
-const chalk = require('supra-core/node_modules/chalk')
+// const chalk = require('supra-core/node_modules/chalk')
+const chalk = require('chalk')
 
 const { Server, assert } = require('supra-core')
 const controllers = require('./controllers')
